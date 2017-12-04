@@ -16,19 +16,20 @@ public class ObjectPoolQueue : ObjectPool {
             return poolList.Count;
         }
     }
-    public override void Init(GameObject prefabObject, int initialPooledAmount)
+    public override void Init(GameObject paramPrefabObject, int initialPooledAmount)
     {
-        this.prefabObject = prefabObject;
+        this.prefabObject = paramPrefabObject;
         poolList = new Queue<GameObject>();
         for (int i = 0; i < initialPooledAmount; i++) {
-            GameObject tempObject = GameObject.Instantiate<GameObject>(prefabObject);
+            GameObject tempObject = GameObject.Instantiate<GameObject>(this.prefabObject);
             tempObject.SetActive(false);
+            tempObject.GetComponent<PoolableObject>().Init();
         }
 
     }
 
     GameObject tempObject;
-    public override void Place(Vector3 position)
+    public override GameObject Place(Vector3 position)
     {
         if (poolList.Count > 0) {
             GameObject tempObject = poolList.Dequeue();
@@ -38,6 +39,7 @@ public class ObjectPoolQueue : ObjectPool {
         }
         tempObject.SetActive(true);
         tempObject.transform.position = position;
+        return tempObject;
 
     }
     public override void ReturnToPool(GameObject gameObject)

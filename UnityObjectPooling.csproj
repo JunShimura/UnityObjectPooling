@@ -87,10 +87,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ObjectGenerator.cs" />
-    <Compile Include="Assets\ObjectPool.cs" />
-    <Compile Include="Assets\ObjectPoolQueue.cs" />
-    <Compile Include="Assets\PoolableObject.cs" />
+    <Compile Include="Assets\Script\ObjectGenerator.cs" />
+    <Compile Include="Assets\Script\ObjectPool.cs" />
+    <Compile Include="Assets\Script\ObjectPoolQueue.cs" />
+    <Compile Include="Assets\Script\PoolableObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

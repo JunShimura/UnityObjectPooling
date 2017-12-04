@@ -10,7 +10,7 @@ public abstract class ObjectPool :MonoBehaviour{
     protected GameObject prefabObject;
     public abstract int pooledAmount { get; }
     public abstract void Init(GameObject prefab, int initialAmount);
-    public abstract void Place(Vector3 position);
+    public abstract GameObject Place(Vector3 position);
     public abstract void ReturnToPool(GameObject gameObject);
 
 }
