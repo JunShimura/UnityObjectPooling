@@ -9,43 +9,42 @@ public class ObjectPoolQueue : ObjectPool {
     /// Sample for Object pooling
     /// </summary>
 
-    Queue<GameObject> poolList;
+    Queue<PoolableObject> poolList;
 
     public override int pooledAmount {
         get {
             return poolList.Count;
         }
     }
-    public override void Init(GameObject paramPrefabObject, int initialPooledAmount)
+    PoolableObject tempObject;
+    public override void Init(PoolableObject paramPoolableObject, int initialPooledAmount)
     {
-        this.prefabObject = paramPrefabObject;
-        poolList = new Queue<GameObject>();
+        this.poolableObject = paramPoolableObject;
+        poolList = new Queue<PoolableObject>();
         for (int i = 0; i < initialPooledAmount; i++) {
-            GameObject tempObject = GameObject.Instantiate<GameObject>(this.prefabObject);
-            tempObject.SetActive(false);
-            tempObject.GetComponent<PoolableObject>().Init();
+            tempObject = Instantiate(poolableObject);
+            tempObject.objectPool = this;
+            tempObject.gameObject.SetActive(false);
+            poolList.Enqueue(tempObject);
         }
-
     }
-
-    GameObject tempObject;
     public override GameObject Place(Vector3 position)
     {
         if (poolList.Count > 0) {
-            GameObject tempObject = poolList.Dequeue();
+            tempObject = poolList.Dequeue();
         }
         else {
-            tempObject = GameObject.Instantiate<GameObject>(prefabObject);
+            tempObject = Instantiate(poolableObject);
         }
-        tempObject.SetActive(true);
+        tempObject.gameObject.SetActive(true);
         tempObject.transform.position = position;
-        return tempObject;
+        return tempObject.gameObject;
 
     }
-    public override void ReturnToPool(GameObject gameObject)
+    public override void ReturnToPool(PoolableObject poolableObject)
     {
-        gameObject.SetActive(false);
-        poolList.Enqueue(gameObject);
+        poolableObject.gameObject.SetActive(false);
+        poolList.Enqueue(poolableObject);
     }
 
 

@@ -13,6 +13,6 @@ public abstract class PoolableObject : MonoBehaviour {
     }
     public void Return()
     {
-        objectPool.ReturnToPool(this.gameObject);
+        objectPool.ReturnToPool(this);
     }
 }

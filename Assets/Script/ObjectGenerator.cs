@@ -10,23 +10,35 @@ public class ObjectGenerator : MonoBehaviour {
     /// </summary>
 
     [SerializeField]
-    GameObject prefab;
+    PoolableObject prefab;
 
     [SerializeField]
-    int initialAmount = 1000;
+    int initialAmount;
 
-    ObjectPool objectPool;
+    [SerializeField]
+    int width;
+
+    ObjectPoolQueue objectPool;
+
+    int activeCount = 0;
+    int generateRate = 10;
 
     // Use this for initialization
     void Start()
     {
-        objectPool = GetComponent<ObjectPool>();
+        objectPool = GetComponent<ObjectPoolQueue>();
         objectPool.Init(prefab, initialAmount);
     }
 
     // Update is called once per frame
+    GameObject tempObject;
+    int count = 0;
+
     void Update()
     {
-
+        count++;
+        tempObject = objectPool.Place(
+            this.transform.position
+            + Vector3.right * (count % width));
     }
 }
